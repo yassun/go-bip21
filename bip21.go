@@ -9,12 +9,16 @@ import (
 )
 
 var (
-	ErrInvalidUrn     = errors.New("invalid URN.")
-	ErrInvalidAmount  = errors.New("invalid amount.")
-	ErrNegativeAmount = errors.New("amount can not be negative.")
+	// ErrInvalidUrn is returned when urn invalid
+	ErrInvalidUrn = errors.New("invalid urn")
+	// ErrInvalidAmount is returned when amount is invalid
+	ErrInvalidAmount = errors.New("invalid amount")
+	// ErrNegativeAmount is returned when amount is negative
+	ErrNegativeAmount = errors.New("amount can not be negative")
 )
 
-type UriResources struct {
+// URIResources is the input value when building URI
+type URIResources struct {
 	UrnScheme string
 	Address   string
 	Amount    float64
@@ -23,7 +27,8 @@ type UriResources struct {
 	Params    map[string]string
 }
 
-func (u UriResources) BuildUri() (string, error) {
+// BuildURI uses URIResources to generate a BIP21 standard URI.
+func (u URIResources) BuildURI() (string, error) {
 
 	if u.UrnScheme != "bitcoin" {
 		return "", ErrInvalidUrn
@@ -84,12 +89,13 @@ func (u UriResources) BuildUri() (string, error) {
 	return b.String(), nil
 }
 
-func Parse(uri string) (*UriResources, error) {
+// Parse parses the BIP21 standard URI and returns URIResources.
+func Parse(uri string) (*URIResources, error) {
 	s := strings.Split(uri, ":")
 	if s[0] != "bitcoin" || len(s) != 2 {
 		return nil, ErrInvalidUrn
 	}
-	u := &UriResources{
+	u := &URIResources{
 		UrnScheme: "bitcoin",
 		Params:    make(map[string]string),
 	}
@@ -143,9 +149,9 @@ func parseAddress(uri string, urn string) string {
 	i := strings.Index(uri, "?")
 	if i == -1 {
 		return uri[len(urn)+1:]
-	} else {
-		return uri[len(urn)+1 : i]
 	}
+
+	return uri[len(urn)+1 : i]
 }
 
 func parseParams(uri string, urn string, address string) map[string]string {

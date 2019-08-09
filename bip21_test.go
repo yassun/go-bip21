@@ -11,14 +11,14 @@ func TestParse(t *testing.T) {
 	func() {
 		type uriParseTest struct {
 			given string
-			exp   *UriResources
+			exp   *URIResources
 		}
 
 		uriParseTests := []uriParseTest{
 			// Just the address
 			{
 				"bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W",
-				&UriResources{
+				&URIResources{
 					UrnScheme: "bitcoin",
 					Address:   "175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W",
 					Amount:    0,
@@ -30,7 +30,7 @@ func TestParse(t *testing.T) {
 			// Just the address
 			{
 				"bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?",
-				&UriResources{
+				&URIResources{
 					UrnScheme: "bitcoin",
 					Address:   "175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W",
 					Amount:    0,
@@ -43,7 +43,7 @@ func TestParse(t *testing.T) {
 			// Address with name
 			{
 				"bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?Label=Luke-Jr",
-				&UriResources{
+				&URIResources{
 					UrnScheme: "bitcoin",
 					Address:   "175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W",
 					Amount:    0,
@@ -56,7 +56,7 @@ func TestParse(t *testing.T) {
 			// Request 20.30 BTC to "Luke-Jr"
 			{
 				"bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=20.3&label=Luke-Jr",
-				&UriResources{
+				&URIResources{
 					UrnScheme: "bitcoin",
 					Address:   "175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W",
 					Amount:    20.3,
@@ -69,7 +69,7 @@ func TestParse(t *testing.T) {
 			// Request 50 BTC with message
 			{
 				"bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=50&label=Luke-Jr&message=Donation%20for%20project%20xyz",
-				&UriResources{
+				&URIResources{
 					UrnScheme: "bitcoin",
 					Address:   "175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W",
 					Amount:    50,
@@ -82,7 +82,7 @@ func TestParse(t *testing.T) {
 			// Some future version that has variables which are (currently) not understood and required and thus invalid:
 			{
 				"bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?req-somethingyoudontunderstand=50&req-somethingelseyoudontget=999",
-				&UriResources{
+				&URIResources{
 					UrnScheme: "bitcoin",
 					Address:   "175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W",
 					Amount:    0,
@@ -98,7 +98,7 @@ func TestParse(t *testing.T) {
 			// Some future version that has variables which are (currently) not understood but not required and thus valid:
 			{
 				"bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?somethingyoudontunderstand=50&somethingelseyoudontget=999",
-				&UriResources{
+				&URIResources{
 					UrnScheme: "bitcoin",
 					Address:   "175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W",
 					Amount:    0,
@@ -184,19 +184,19 @@ func TestParse(t *testing.T) {
 
 }
 
-func TestBuildUri(t *testing.T) {
+func TestBuildURI(t *testing.T) {
 
 	// Success
 	func() {
-		type buildUriTest struct {
+		type buildURITest struct {
 			exp   string
-			given *UriResources
+			given *URIResources
 		}
 
-		buildUriTests := []buildUriTest{
+		buildURITests := []buildURITest{
 			{
 				"bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W",
-				&UriResources{
+				&URIResources{
 					UrnScheme: "bitcoin",
 					Address:   "175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W",
 					Amount:    0,
@@ -208,7 +208,7 @@ func TestBuildUri(t *testing.T) {
 
 			{
 				"bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?label=Luke-Jr",
-				&UriResources{
+				&URIResources{
 					UrnScheme: "bitcoin",
 					Address:   "175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W",
 					Amount:    0,
@@ -221,7 +221,7 @@ func TestBuildUri(t *testing.T) {
 			// Request 20.30 BTC to "Luke-Jr"
 			{
 				"bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=20.3&label=Luke-Jr",
-				&UriResources{
+				&URIResources{
 					UrnScheme: "bitcoin",
 					Address:   "175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W",
 					Amount:    20.3,
@@ -234,7 +234,7 @@ func TestBuildUri(t *testing.T) {
 			// Request 50 BTC with message
 			{
 				"bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=50&label=Luke-Jr&message=Donation+for+project+xyz+%F0%9F%92%B0",
-				&UriResources{
+				&URIResources{
 					UrnScheme: "bitcoin",
 					Address:   "175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W",
 					Amount:    50,
@@ -247,7 +247,7 @@ func TestBuildUri(t *testing.T) {
 			// Some future version that has variables which are (currently) not understood and required and thus invalid:
 			{
 				"bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?req-somethingyoudontunderstand=50",
-				&UriResources{
+				&URIResources{
 					UrnScheme: "bitcoin",
 					Address:   "175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W",
 					Amount:    0,
@@ -262,7 +262,7 @@ func TestBuildUri(t *testing.T) {
 			// Some future version that has variables which are (currently) not understood but not required and thus valid:
 			{
 				"bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?somethingelseyoudontget=999",
-				&UriResources{
+				&URIResources{
 					UrnScheme: "bitcoin",
 					Address:   "175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W",
 					Amount:    0,
@@ -275,10 +275,10 @@ func TestBuildUri(t *testing.T) {
 			},
 		}
 
-		for _, tt := range buildUriTests {
-			got, err := tt.given.BuildUri()
+		for _, tt := range buildURITests {
+			got, err := tt.given.BuildURI()
 			if err != nil {
-				t.Errorf("BuildUri(%+v) returned error %s", tt.given, err)
+				t.Errorf("BuildURI(%+v) returned error %s", tt.given, err)
 				continue
 			}
 			if got != tt.exp {
@@ -290,14 +290,14 @@ func TestBuildUri(t *testing.T) {
 
 	// Fail
 	func() {
-		type buildUriTest struct {
-			given *UriResources
+		type buildURITest struct {
+			given *URIResources
 			exp   error
 		}
 
-		buildUriTests := []buildUriTest{
+		buildURITests := []buildURITest{
 			{
-				&UriResources{
+				&URIResources{
 					UrnScheme: "",
 					Address:   "175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W",
 					Amount:    0,
@@ -308,7 +308,7 @@ func TestBuildUri(t *testing.T) {
 				ErrInvalidUrn,
 			},
 			{
-				&UriResources{
+				&URIResources{
 					UrnScheme: "xxxxx",
 					Address:   "175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W",
 					Amount:    0,
@@ -319,7 +319,7 @@ func TestBuildUri(t *testing.T) {
 				ErrInvalidUrn,
 			},
 			{
-				&UriResources{
+				&URIResources{
 					UrnScheme: "bitcoin",
 					Address:   "175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W",
 					Amount:    -1,
@@ -331,8 +331,8 @@ func TestBuildUri(t *testing.T) {
 			},
 		}
 
-		for _, tt := range buildUriTests {
-			_, err := tt.given.BuildUri()
+		for _, tt := range buildURITests {
+			_, err := tt.given.BuildURI()
 			if err != tt.exp {
 				t.Errorf("%#v : exp error(%s), got error(%s)", tt.given, tt.exp, err)
 				continue
