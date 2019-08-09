@@ -29,25 +29,21 @@ type URIResources struct {
 
 // BuildURI uses URIResources to generate a BIP21 standard URI.
 func (u URIResources) BuildURI() (string, error) {
-
 	if u.UrnScheme != "bitcoin" {
 		return "", ErrInvalidUrn
 	}
 
 	b := &bytes.Buffer{}
 
-	_, err := b.WriteString(u.UrnScheme)
-	if err != nil {
+	if _, err := b.WriteString(u.UrnScheme); err != nil {
 		return "", err
 	}
 
-	err = b.WriteByte(':')
-	if err != nil {
+	if err := b.WriteByte(':'); err != nil {
 		return "", err
 	}
 
-	_, err = b.WriteString(u.Address)
-	if err != nil {
+	if _, err := b.WriteString(u.Address); err != nil {
 		return "", err
 	}
 
@@ -76,12 +72,10 @@ func (u URIResources) BuildURI() (string, error) {
 	}
 
 	if len(ps) != 0 {
-		err = b.WriteByte('?')
-		if err != nil {
+		if err := b.WriteByte('?'); err != nil {
 			return "", err
 		}
-		_, err = b.WriteString(ps.Encode())
-		if err != nil {
+		if _, err := b.WriteString(ps.Encode()); err != nil {
 			return "", err
 		}
 	}
@@ -132,7 +126,6 @@ func Parse(uri string) (*URIResources, error) {
 }
 
 func parseAmount(amount string) (float64, error) {
-
 	a, err := strconv.ParseFloat(amount, 64)
 	if err != nil {
 		return -1, ErrInvalidAmount
@@ -145,7 +138,6 @@ func parseAmount(amount string) (float64, error) {
 }
 
 func parseAddress(uri string, urn string) string {
-
 	i := strings.Index(uri, "?")
 	if i == -1 {
 		return uri[len(urn)+1:]
@@ -155,7 +147,6 @@ func parseAddress(uri string, urn string) string {
 }
 
 func parseParams(uri string, urn string, address string) map[string]string {
-
 	ps := make(map[string]string)
 
 	qp := uri[len(urn)+1+len(address)+1:]
