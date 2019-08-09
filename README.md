@@ -5,8 +5,8 @@
 [![GoDoc](https://godoc.org/github.com/yassun/go-bip21?status.svg)](https://godoc.org/github.com/yassun/go-bip21)
 [![license](https://img.shields.io/badge/license-MIT-4183c4.svg)](https://github.com/yassun/go-bip21/blob/master/LICENSE)
 
-go-bip21 is an open source library to handle the URI based on the BIP-21 standard.
-
+go-bip21 is an open source library to handle the URI based on the [BIP-21](https://github.com/bitcoin/bips/blob/master/bip-0021.mediawiki) standard.
+ 
 # Install
 
 ```bash
