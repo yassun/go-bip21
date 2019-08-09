@@ -12,10 +12,12 @@ install:
   - go get golang.org/x/tools/cmd/cover
   - go get github.com/modocache/gover
   - go get github.com/mattn/goveralls
+  - go get -u golang.org/x/lint/golint
   - go get -v -t ./...
 
 script:
   - go vet ./...
+  - diff <(golint ./...) <(printf "")
   - go test -cover -coverpkg github.com/yassun/go-bip21 -coverprofile go-bip21.coverprofile
 
 after_script:
