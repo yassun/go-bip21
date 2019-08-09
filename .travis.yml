@@ -1,0 +1,28 @@
+language: go
+sudo: false
+go:
+  - 1.11
+  - tip
+
+matrix:
+  allow_failures:
+    - go: tip
+
+install:
+  - go get golang.org/x/tools/cmd/cover
+  - go get github.com/modocache/gover
+  - go get github.com/mattn/goveralls
+  - go get -v -t ./...
+
+script:
+  - go vet ./...
+  - go test -cover -coverpkg github.com/yassun/go-bip21 -coverprofile go-bip21.coverprofile
+
+after_script:
+  - gover
+  - goveralls -coverprofile=gover.coverprofile -repotoken $COVERALLS_TOKEN
+
+env:
+  GO111MODULE: on
+  global:
+    secure: FxlX9fMga0Z3ocXExpwmWv3EXknq1QEuhqeYOS3Cp+x9cNKdqvRmOkW8z6tBV7iwU77FtLr/M8C7Kfi0+bNoBjLiFG51S7aqtoSzsjNViierv8H789Cjy2SmkmGK2EJFLFSz26lez9kB51bQnGY110EiVbZV8e5Ys/zoVEMLH1ERk5yEE2Klj+gb7Fnhp4aFesN/y7YESOLtM21jjnmwKXmbKBB0/69k/tZojYvjh5GViuAwu3hPfGfnuEypmXBVhc3Ij+K9+sH9CGi8xla4WJOQFhXkRyv4UeIDtFW8+ZqPVLpDiA28Ei8Vl9ASIHcDPKKEmU5MUOXuiDHaZmfvn/VAT+iM0NRRA8hQ2ccZoGCP4t9/SaXhTHXhMwCe0crdY1d4bZ87FbweBwbpiGMH5+/iy0jnbQ0ctnzUDdxpM1X6/jZCIM9Pk9tE+yEUY5qYcZTD9EW+xLoWJ7EA8ChMCHlNvY9sFr52JYa5Ibsl7k1AUhJh1wDspPnxeVxQw3KGfQRqqZV3bW6yjY/VWFkkb+FKEU0xm16MUJASz2AgB8ZyZtD2W+cTh6JiwP35oWGKakAzqUVc+pTvmKUMTUannrXSSDT8CkxEH+4ip94p4UOt427D2eTq1HlHkGmkkETdvgOZarBuHKGUqx5qMdt5quoktqtSQTitk70QoOtMyCY=
