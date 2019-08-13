@@ -28,7 +28,7 @@ fmt.Printf("%+v\n", u)
 Build the URI `bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=20.3&label=Luke-Jr`
 
 ```Go
-u := &bip21.UriResources{
+u := &bip21.URIResources{
   UrnScheme: "bitcoin",
   Address:   "175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W",
   Amount:    20.3,
@@ -37,7 +37,7 @@ u := &bip21.UriResources{
   Params:    make(map[string]string),
 }
 
-uri, err := u.BuildUri()
+uri, err := u.BuildURI()
 if err != nil {...}
 
 // bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=20.3&label=Luke-Jr
